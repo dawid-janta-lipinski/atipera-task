@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class GitHubRepo {
     String name;
     Owner owner;
+    boolean fork;
     String branches_url;
 
 }
