@@ -18,8 +18,8 @@ A Spring Boot application that retrieves public GitHub repositories for a given 
 * Retrieves a list of public GitHub repositories for a given username.
 * Filters out forked repositories.
 * Fetches basic information about each repository's branches (name and last commit SHA).
-* Handles user not found gracefully with a 404 response.
-* Uses Accept header to validate input format.
+* Handles `user not found` gracefully with a `404` response.
+* Uses `Accept header` to validate input format.
 
 **Usage:**
 
