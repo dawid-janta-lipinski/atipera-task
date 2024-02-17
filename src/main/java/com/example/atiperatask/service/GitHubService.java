@@ -1,5 +1,6 @@
 package com.example.atiperatask.service;
 
+import com.example.atiperatask.exceptions.HttpRequestException;
 import com.example.atiperatask.exceptions.UserDoesntExistException;
 import com.example.atiperatask.model.FailureResponse;
 import com.example.atiperatask.model.GitHubRepoDTO;
@@ -14,6 +15,7 @@ import java.util.List;
 public class GitHubService {
     private final ApiClientService apiClientService;
     public ResponseEntity<?> getRepos(String accept, String username) {
+
         if (!"application/json".equals(accept)){
             return ResponseEntity.status(406).body(new FailureResponse(406, "header 'Accept: application/json' required"));
         }
@@ -22,6 +24,8 @@ public class GitHubService {
             return ResponseEntity.ok(repoNames);
         }catch (UserDoesntExistException e){
             return ResponseEntity.status(404).body(new FailureResponse(404, "This user doesn't exist"));
+        } catch (HttpRequestException exception){
+            return ResponseEntity.status(404).body(new FailureResponse(404, "Something went wrong"));
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.atiperatask.service;
 
+import com.example.atiperatask.exceptions.HttpRequestException;
 import com.example.atiperatask.exceptions.UserDoesntExistException;
 import com.example.atiperatask.mapper.BranchMapper;
 import com.example.atiperatask.model.*;
@@ -11,6 +12,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +33,10 @@ public class ApiClientService {
         try {
             response = webClient.get().retrieve().toEntityList(GitHubRepo.class).block();
         } catch (WebClientResponseException e) {
-            throw new UserDoesntExistException("This user doesn't exist.");
+            if(e.getStatusText().equals("Not Found")) {
+                throw new UserDoesntExistException("This user doesn't exist.");
+            }
+            throw new HttpRequestException("An error occur");
         }
 
         Objects.requireNonNull(response);
